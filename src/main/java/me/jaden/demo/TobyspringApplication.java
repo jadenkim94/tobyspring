@@ -19,26 +19,30 @@ public class TobyspringApplication {
 		// tomcat servletContainer 생성
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		// frontController 등록
-        WebServer webServer = serverFactory.getWebServer(servletContext -> servletContext.addServlet("frontcontroller"
-                , new HttpServlet() {
-            @Override
-            protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-                    IOException {
-                // 공통적으로 해야할 인증, 보안, 다국어처리를 하는 코드 삽입
+        WebServer webServer = serverFactory.getWebServer(servletContext -> {
+            HelloController helloController = new HelloController();
+            servletContext.addServlet("frontcontroller"
+                    , new HttpServlet() {
+                        @Override
+                        protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+                                IOException {
+                            // 공통적으로 해야할 인증, 보안, 다국어처리를 하는 코드 삽입
 
-                // hello 요청 매핑
-                if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())) {
-                    String name = req.getParameter("name");
+                            // hello 요청 매핑
+                            if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())) {
+                                String name = req.getParameter("name");
 
-                    resp.setStatus(HttpStatus.OK.value());
-                    resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-                    resp.getWriter().print("hello " + name);
-                } else {
-                    resp.setStatus(HttpStatus.NOT_FOUND.value());
-                }
-            }
-            // 모든 요청을 mapping
-        }).addMapping("/*"));
+                                String ret = helloController.hello(name);
+                                resp.setStatus(HttpStatus.OK.value());
+                                resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+                                resp.getWriter().print(ret);
+                            } else {
+                                resp.setStatus(HttpStatus.NOT_FOUND.value());
+                            }
+                        }
+                        // 모든 요청을 mapping
+                    }).addMapping("/*");
+        });
         webServer.start();
     }
 

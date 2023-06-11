@@ -19,6 +19,7 @@ public class TobyspringApplication {
     public static void main(String[] args) {
         GenericApplicationContext applicationContext = new GenericApplicationContext();
         applicationContext.registerBean(HelloController.class);
+        applicationContext.registerBean(SimpleHelloService.class);
         applicationContext.refresh();
         // tomcat servletContainer 생성
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();

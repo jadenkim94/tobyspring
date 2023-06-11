@@ -3,6 +3,7 @@ package me.jaden.demo;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,13 @@ import java.io.IOException;
 
 public class TobyspringApplication {
     public static void main(String[] args) {
-		// tomcat servletContainer 생성
+        GenericApplicationContext applicationContext = new GenericApplicationContext();
+        applicationContext.registerBean(HelloController.class);
+        applicationContext.refresh();
+        // tomcat servletContainer 생성
         ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		// frontController 등록
         WebServer webServer = serverFactory.getWebServer(servletContext -> {
-            HelloController helloController = new HelloController();
             servletContext.addServlet("frontcontroller"
                     , new HttpServlet() {
                         @Override
@@ -28,13 +31,14 @@ public class TobyspringApplication {
                                 IOException {
                             // 공통적으로 해야할 인증, 보안, 다국어처리를 하는 코드 삽입
 
+                            HelloController helloController = applicationContext.getBean(HelloController.class);
+
                             // hello 요청 매핑
                             if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())) {
                                 String name = req.getParameter("name");
 
                                 String ret = helloController.hello(name);
-                                resp.setStatus(HttpStatus.OK.value());
-                                resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+                                resp.setContentType(MediaType.TEXT_PLAIN_VALUE);
                                 resp.getWriter().print(ret);
                             } else {
                                 resp.setStatus(HttpStatus.NOT_FOUND.value());

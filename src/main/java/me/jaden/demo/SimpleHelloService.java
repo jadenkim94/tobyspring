@@ -2,7 +2,7 @@ package me.jaden.demo;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@MyComponent
 public class SimpleHelloService implements HelloSerivce {
     @Override
     public String sayHello(String name) {

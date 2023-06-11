@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Objects;
 
 @RequestMapping
-@Component
+@MyComponent
 public class HelloController {
 
     private final HelloSerivce helloSerivce;

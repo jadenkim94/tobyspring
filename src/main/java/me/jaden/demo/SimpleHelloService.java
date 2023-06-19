@@ -1,8 +1,8 @@
 package me.jaden.demo;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@MyComponent
+@Service
 public class SimpleHelloService implements HelloSerivce {
     @Override
     public String sayHello(String name) {

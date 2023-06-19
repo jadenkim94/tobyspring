@@ -1,5 +1,6 @@
 package me.jaden.demo;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -12,25 +13,17 @@ import org.springframework.web.servlet.DispatcherServlet;
 @Configuration
 @ComponentScan
 public class TobyspringApplication {
-    public static void main(String[] args) {
-        AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
-            @Override
-            protected void onRefresh() {
-                super.onRefresh();
 
-                ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-                WebServer webServer = serverFactory.getWebServer(servletContext -> {
-                    servletContext.addServlet("dispatcherServlet",
-                            new DispatcherServlet(this)
-                    ).addMapping("/*");
-                });
-                webServer.start();
-            }
-        };
-        applicationContext.register(TobyspringApplication.class);
-        applicationContext.refresh();
-
-
+    @Bean
+    public ServletWebServerFactory servletWebServerFactory() {
+        return new TomcatServletWebServerFactory();
     }
 
+    @Bean
+    public DispatcherServlet dispatcherServlet() {
+        return new DispatcherServlet();
+    }
+    public static void main(String[] args) {
+        SpringApplication.run(TobyspringApplication.class, args);
+    }
 }

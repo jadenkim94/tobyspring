@@ -1,5 +1,6 @@
 package me.jaden.demo;
 
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +17,9 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello(String name) {
-        return helloSerivce.sayHello(Objects.requireNonNull(name));
+        if(Strings.isBlank(name)) {
+            throw new IllegalArgumentException();
+        }
+        return helloSerivce.sayHello(name);
     }
 }

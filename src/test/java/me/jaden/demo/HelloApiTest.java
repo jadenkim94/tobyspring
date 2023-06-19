@@ -1,6 +1,5 @@
 package me.jaden.demo;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpHeaders;
@@ -18,7 +17,7 @@ public class HelloApiTest {
 
         ResponseEntity<String> response =
                 rest.getForEntity("http://localhost:8080/hello?name={name}", String.class, "Spring");
-        
+
         // status code 검증
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         // header 의 contentType 검증

@@ -23,6 +23,6 @@ public class HelloApiTest {
         // header 의 contentType 검증
         assertThat(response.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE)).startsWith(MediaType.TEXT_PLAIN_VALUE);
         // body 검증
-        assertThat(response.getBody()).isEqualTo("Hello Spring");
+        assertThat(response.getBody()).isEqualTo("*Hello Spring*");
     }
 }

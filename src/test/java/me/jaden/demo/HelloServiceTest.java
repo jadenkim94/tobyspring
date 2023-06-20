@@ -3,7 +3,6 @@ package me.jaden.demo;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class HelloServiceTest {
 
@@ -14,5 +13,15 @@ class HelloServiceTest {
 
         assertThat(ret).isEqualTo("Hello Test");
     }
+
+    @Test
+    void helloDecorator() {
+        HelloDecorator decorator = new HelloDecorator(name -> name);
+
+        String ret = decorator.sayHello("test");
+
+        assertThat(ret).isEqualTo("*test*");
+    }
+
 
 }

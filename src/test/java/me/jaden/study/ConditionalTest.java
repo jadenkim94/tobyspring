@@ -9,6 +9,12 @@ import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ConditionalTest {
@@ -28,8 +34,15 @@ public class ConditionalTest {
                 });
     }
 
+   @Retention(RetentionPolicy.RUNTIME)
+   @Target(ElementType.TYPE)
+   @Conditional(BooleanCondition.class)
+   @interface BooleanConditional {
+        boolean value();
+   }
+
     @Configuration
-    @Conditional(SampleBeanCondition.class)
+    @BooleanConditional(true)
     static class SampleBeanConfiguration {
         @Bean
         SampleBean sampleBean() {
@@ -38,7 +51,7 @@ public class ConditionalTest {
     }
 
     @Configuration
-    @Conditional(SampleBean2Condition.class)
+    @BooleanConditional(false)
     static class SampleBean2Configuration {
         @Bean
         SampleBean2 sampleBean2() {
@@ -57,7 +70,6 @@ public class ConditionalTest {
     }
 
     static class SampleBeanCondition implements Condition {
-
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
             return true;
@@ -68,6 +80,17 @@ public class ConditionalTest {
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
             return false;
+        }
+    }
+
+    private static class BooleanCondition implements Condition {
+        @Override
+        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+            Map<String, Object> annotationAttributes =
+                    metadata.getAnnotationAttributes(BooleanConditional.class.getName());
+
+            Boolean condition = (Boolean) annotationAttributes.get("value");
+            return condition;
         }
     }
 }

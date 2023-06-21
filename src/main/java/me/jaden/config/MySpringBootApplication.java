@@ -1,6 +1,5 @@
 package me.jaden.config;
 
-import me.jaden.config.EnableMyAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 

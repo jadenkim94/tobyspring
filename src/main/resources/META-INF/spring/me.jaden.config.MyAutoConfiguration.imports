@@ -1,0 +1,2 @@
+me.jaden.config.autoconfig.DispatcherServletConfiguration
+me.jaden.config.autoconfig.TomcatWebServerConfiguration

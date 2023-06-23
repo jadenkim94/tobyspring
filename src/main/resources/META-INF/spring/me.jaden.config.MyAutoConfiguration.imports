@@ -2,3 +2,4 @@ me.jaden.config.autoconfig.DispatcherServletConfiguration
 me.jaden.config.autoconfig.TomcatWebServerConfiguration
 me.jaden.config.autoconfig.JettyWebServerConfiguration
 me.jaden.config.autoconfig.PropertyPlaceHolderConfig
+me.jaden.config.autoconfig.PropertyPostProcessorConfig

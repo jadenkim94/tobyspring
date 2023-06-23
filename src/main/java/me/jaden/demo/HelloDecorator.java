@@ -17,4 +17,11 @@ public class HelloDecorator implements HelloSerivce{
     public String sayHello(String name) {
         return "*" + helloSerivce.sayHello(name) + "*";
     }
+
+    @Override
+    public int countOf(String name) {
+        return helloSerivce.countOf(name);
+    }
+
+
 }

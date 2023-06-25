@@ -1,12 +1,12 @@
 package me.jaden.demo;
 
-import me.jaden.config.MySpringBootApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.PostConstruct;
 
-@MySpringBootApplication
+@SpringBootApplication
 public class TobyspringApplication {
 
     private final JdbcTemplate jdbcTemplate;
